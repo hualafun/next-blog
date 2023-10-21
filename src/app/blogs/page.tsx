@@ -11,6 +11,9 @@ async function extractAllBlogs() {
   if (data.success) return data.data;
 }
 
+export const dynamic = 'force-dynamic'
+
+
 export default async function Blogs() {
   const blogPostsList = await extractAllBlogs();
 
