@@ -9,7 +9,6 @@ import {
 } from "react";
 import { useSession } from "next-auth/react";
 import Spinner from "@/components/spinner";
-import { Blog, BlogFormData } from "@/utils/types";
 import { initialBlogFormData } from "@/utils";
 import { usePathname, useRouter } from "next/navigation";
 

@@ -1,5 +1,3 @@
-import { FormControlItem, MenuItem, Option } from "./types";
-
 export const menuItems: MenuItem[] = [
   {
     id: "home",

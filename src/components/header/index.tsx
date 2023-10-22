@@ -3,7 +3,6 @@
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { menuItems } from "@/utils";
-import { MenuItem } from "@/utils/types";
 import Button from "../button";
 import ThemeToggler from "../theme";
 import { signIn, signOut, useSession } from "next-auth/react";

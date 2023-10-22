@@ -3,7 +3,6 @@
 import SingleBlog from "@/components/blogs/single-blog";
 import Button from "@/components/button";
 import { GlobalContext } from "@/context";
-import { Blog } from "@/utils/types";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 

@@ -1,4 +1,3 @@
-import { Blog } from "@/utils/types";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,11 +10,12 @@ export default function SingleBlog({
   blogItem: Blog;
   handleDelete: (id: number) => {};
 }) {
+
   const { image, category, title, description, userimage, userid, id } =
     blogItem;
-  const { data: session } = useSession();
 
-  console.log(session, userid);
+    
+  const { data: session } = useSession();
 
   return (
     <div>

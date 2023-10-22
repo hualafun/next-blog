@@ -1,6 +1,5 @@
 "use client";
 
-import { Blog } from "@/utils/types";
 import Button from "../button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";

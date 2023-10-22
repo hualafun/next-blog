@@ -4,7 +4,6 @@ import Button from "@/components/button";
 import Spinner from "@/components/spinner";
 import { GlobalContext } from "@/context";
 import { firebaseConfig, formControls, initialBlogFormData } from "@/utils";
-import { BlogFormData } from "@/utils/types";
 import { initializeApp } from "firebase/app";
 import {
   getStorage,
