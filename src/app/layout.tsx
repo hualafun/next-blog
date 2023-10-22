@@ -30,8 +30,10 @@ export default function RootLayout({
           disableTransitionOnChange>
           <NextAuthProvider>
             <GlobalState>
-              <Header />
-              {children}
+              <div className="container">
+                <Header />
+                {children}
+              </div>
             </GlobalState>
           </NextAuthProvider>
         </NextThemeProvider>

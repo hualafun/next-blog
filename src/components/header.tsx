@@ -55,9 +55,12 @@ export default function Header() {
                     ${sticky ? "py-5 lg:py-2" : "py-8"}
                     `}
               >
-                Huala Blog
+                <span className="max-lg:hidden">Huala Blog</span>
+                <span className="hidden max-lg:block">Blog</span>
               </Link>
             </div>
+
+
             <div className="flex w-full items-center justify-between px-4">
               <div>
                 <button
@@ -110,14 +113,20 @@ export default function Header() {
               <div className="flex gap-4 items-center justify-end pr-16 lg:pr-0">
                 {session !== null ? (
                   <Button
+                    className="dark:text-white"
                     onClick={() => router.push("/posts/create")}
-                  >发布博客</Button>
+                  >
+                    发布博客
+                  </Button>
                 ) : null}
                 <Button
+                  className="dark:text-white"
                   onClick={
                     session !== null ? () => signOut() : () => signIn("github")
                   }
-                >{session !== null ? "退出" : "登录"}</Button>
+                >
+                  {session !== null ? "退出" : "登录"}
+                </Button>
                 <div className="flex gap-3 items-center">
                   <ThemeToggler />
                 </div>
