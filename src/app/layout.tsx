@@ -1,10 +1,11 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import "./global.css";
 import NextAuthProvider from "@/providers/next-auth-provider";
 import NextThemeProvider from "@/providers/theme-provider";
 import GlobalState from "@/context";
 import Header from "@/components/header";
+import { Toaster } from "@/components/ui/toaster"
 
 const poppins = Poppins({
   weight: ['300', '400', '500', '600'],
@@ -25,7 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className}`}>
-        <NextThemeProvider>
+        <NextThemeProvider attribute="class" defaultTheme="system" enableSystem
+          disableTransitionOnChange>
           <NextAuthProvider>
             <GlobalState>
               <Header />
@@ -33,6 +35,7 @@ export default function RootLayout({
             </GlobalState>
           </NextAuthProvider>
         </NextThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

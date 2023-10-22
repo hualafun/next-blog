@@ -2,18 +2,19 @@
 
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { menuItems } from "@/utils";
-import Button from "../button";
-import ThemeToggler from "../theme";
+import { menuItems } from "@/config";
+import ThemeToggler from "./theme";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { GlobalContext } from "@/context";
+
+import { Button } from "./ui/button";
 
 export default function Header() {
   const [sticky, setSticky] = useState<boolean>(false);
   const [navbarOpen, setNavbarOpen] = useState<boolean>(false);
   const { data: session } = useSession();
-  const {setSearchQuery, setSearchResults} = useContext(GlobalContext)
+  const { setSearchQuery, setSearchResults } = useContext(GlobalContext)
   const router = useRouter();
   const pathName = usePathname();
 
@@ -30,20 +31,19 @@ export default function Header() {
     window.addEventListener("scroll", handleStickyNavbar);
   });
 
-  useEffect(()=> {
-    setSearchResults([]) 
-    setSearchQuery('')  
-  },[pathName])
+  useEffect(() => {
+    setSearchResults([])
+    setSearchQuery('')
+  }, [pathName])
 
   return (
     <div>
       <header
         className={`top-0 left-0 z-40 flex w-full items-center bg-transparent
-        ${
-          sticky
+        ${sticky
             ? "!fixed !z-[9999] !bg-white !bg-opacity-80 shadow-sticky backdrop:blur-sm !transition dark:!bg-primary dark:!bg-opacity-20"
             : "absolute"
-        }
+          }
         `}
       >
         <div className="container">
@@ -87,11 +87,10 @@ export default function Header() {
                   className={`absolute right-0 z-30 w-[250px] rounded border-[.5px] bg-white border-body-color/50 py-4 
                 px-6 duration-300 dark:border-body-color/20 dark:bg-dark lg:visible lg:static lg:w-auto lg:border-none lg:!bg-transparent lg:p-0 lg:opacity-100
 
-                ${
-                  navbarOpen
-                    ? "visible top-full opacity-100"
-                    : "invisible top-[120%] opacity-0"
-                }
+                ${navbarOpen
+                      ? "visible top-full opacity-100"
+                      : "invisible top-[120%] opacity-0"
+                    }
                 `}
                 >
                   <ul className="block lg:flex lg:space-x-12">
@@ -111,16 +110,14 @@ export default function Header() {
               <div className="flex gap-4 items-center justify-end pr-16 lg:pr-0">
                 {session !== null ? (
                   <Button
-                    onClick={() => router.push("/create")}
-                    text="发布博客"
-                  />
+                    onClick={() => router.push("/posts/create")}
+                  >发布博客</Button>
                 ) : null}
                 <Button
                   onClick={
                     session !== null ? () => signOut() : () => signIn("github")
                   }
-                  text={session !== null ? "退出" : "登录"}
-                />
+                >{session !== null ? "退出" : "登录"}</Button>
                 <div className="flex gap-3 items-center">
                   <ThemeToggler />
                 </div>

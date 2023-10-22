@@ -1,9 +1,10 @@
 "use client";
 
-import Button from "@/components/button";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Spinner from "@/components/spinner";
 import { GlobalContext } from "@/context";
-import { firebaseConfig, formControls, initialBlogFormData } from "@/utils";
+import { firebaseConfig, formControls, initialBlogFormData } from "@/config";
 import { initializeApp } from "firebase/app";
 import {
   getStorage,
@@ -14,6 +15,7 @@ import {
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const app = initializeApp(firebaseConfig);
 const stroage = getStorage(app, "gs://blog-app-97d34.appspot.com");
@@ -33,7 +35,7 @@ async function handleImageSaveToFireBase(file: any) {
   return new Promise((resolve, reject) => {
     uploadImg.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => reject(error),
       () => {
         getDownloadURL(uploadImg.snapshot.ref)
@@ -45,36 +47,44 @@ async function handleImageSaveToFireBase(file: any) {
 }
 
 export default function Create() {
+  const { toast } = useToast()
   const { formData, setFormData } = useContext(GlobalContext);
   const [imageLoading, setImageLoading] = useState<boolean>(false);
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(session, "session");
-
-  async function handleBlogImageChange(
-    event: React.ChangeEvent<HTMLInputElement>
-  ) {
-    if (!event.target.files) return;
-    setImageLoading(true);
-    const saveImageToFirebase: any = await handleImageSaveToFireBase(
-      event.target.files[0]
-    );
-
-    if (saveImageToFirebase !== "") {
-      setImageLoading(false);
-      console.log(saveImageToFirebase, "saveImageToFirebase");
+  const handleImageChange = async (e: any) => {
+    console.log(e);
+    const file = e.target.files?.[0];
+    if (!file) return
+    try {
+      setImageLoading(() => true);
+      const data = new FormData()
+      data.set('file', file)
+      console.log(file);
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: data
+      })
+      if (!res.ok) throw new Error(await res.text())
+      const { url, path } = await res.json();
+      toast({
+        title: "上传成功",
+        description: `图片地址: ${url}`,
+      })
       setFormData({
         ...formData,
-        image: saveImageToFirebase,
+        image: url,
       });
+    } catch (e: any) {
+      console.error(e)
+    } finally {
+      setImageLoading(() => false);
     }
   }
 
   async function handleSaveBlogPost() {
-    console.log(formData);
-
-    const res = await fetch("/api/blog-post/add-post", {
+    const res = await fetch("/api/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,14 +96,10 @@ export default function Create() {
         comments: [],
       }),
     });
-
     const data = await res.json();
-
-    console.log(data, "data123");
-
     if (data && data.success) {
       setFormData(initialBlogFormData)
-      router.push("/blogs");
+      router.push("/posts");
     }
   }
 
@@ -113,13 +119,13 @@ export default function Create() {
                   <div className="flex gap-3">
                     <div className={`${imageLoading ? "w-1/2" : "w-full"}`}>
                       <label className="mb-3 block text-sm font-medium text-dark dark:text-white">
-                       上传图片
+                        上传图片
                       </label>
-                      <input
+                      <Input
                         id="fileinput"
                         accept="image/*"
                         max={1000000}
-                        onChange={handleBlogImageChange}
+                        onChange={(e) => { handleImageChange(e) }}
                         type="file"
                         className="w-full mb-8 rounded-md border border-transparent py-3 px-6 text-base text-body-color placeholder-body-color shadow-one outline-none focus:border-primary focus-visible:shadow-none dark:bg-[#242B51] dark:shadow-signUp"
                       />
@@ -132,8 +138,8 @@ export default function Create() {
                   </div>
 
                   <div className="-mx-4 flex flex-wrap">
-                    {formControls.map((control) => (
-                      <div className="w-full px-4">
+                    {formControls.map((control, index) => (
+                      <div key={`control-${index}`} className="w-full px-4">
                         <label className="mb-3 block text-sm font-medium text-dark dark:text-white">
                           {control.label}
                         </label>
@@ -199,12 +205,9 @@ export default function Create() {
                         ) : null}
                       </div>
                     ))}
-                    <div className="w-full px-4">
-                      <Button
-                        text="创建新的博客"
-                        onClick={handleSaveBlogPost}
-                      />
-                    </div>
+                    <Button className="w-full px-4" onClick={handleSaveBlogPost}>
+                      发布
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -212,6 +215,6 @@ export default function Create() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }

@@ -1,19 +1,16 @@
 "use client";
 
-import Button from "../button";
+import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { categories } from "@/utils";
+import { categories } from "@/config";
 import Link from "next/link";
 
-export default function CategoryList({ list }: { list: Blog[] }) {
-  console.log(list, "list");
+export default function CategoryList({ list }: { list: Post[] }) {
 
   const router = useRouter();
 
   const getMaxId = Math.max(...list.map((item) => item.id));
-
-  console.log(getMaxId);
 
   const getLatestBlogForCurrentCategory =
     list && list.length ? list.find((item) => item.id === getMaxId) : null;
@@ -30,12 +27,12 @@ export default function CategoryList({ list }: { list: Blog[] }) {
               {getLatestBlogForCurrentCategory === null ? (
                 <div className="flex flex-col gap-4">
                   <h2 className="mb-8 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl">
-                  没有可用于此类别的博客！请创建一个
+                    没有可用于此类别的博客！请创建一个
                   </h2>
                   <Button
-                    text="创建新的博客"
-                    onClick={() => router.push("/create")}
-                  />
+                    onClick={() => router.push("/posts/create")}
+                  >新的博客
+                  </Button>
                 </div>
               ) : (
                 <div>
@@ -61,7 +58,7 @@ export default function CategoryList({ list }: { list: Blog[] }) {
             <div className="w-full px-4 lg:w-4/12">
               <div className="mb-10 rounded-md bg-primary bg-opacity-5 dark:bg-opacity-10">
                 <h3 className="border-b border-body-color border-opacity-10 py-4 px-8 text-lg font-semibold text-black dark:border-white dark:border-opacity-10 dark:text-white">
-                按类别筛选
+                  按类别筛选
                 </h3>
                 <div className="flex flex-wrap py-6 px-8">
                   {categories.map((catItem) => (
@@ -76,7 +73,7 @@ export default function CategoryList({ list }: { list: Blog[] }) {
               </div>
               <div className="mb-10 rounded-md bg-primary bg-opacity-5 dark:bg-opacity-10">
                 <h3 className="border-b border-body-color border-opacity-10 py-4 px-8 text-lg font-semibold text-black dark:border-white dark:border-opacity-10 dark:text-white">
-                相关的博客
+                  相关的博客
                 </h3>
                 <ul className="p-8">
                   {relatedBlogs && relatedBlogs.length ? (

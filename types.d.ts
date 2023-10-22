@@ -25,7 +25,7 @@ type BlogFormData = {
   category: string;
 };
 
-type Blog = {
+type Post = {
   id: number;
   title: string;
   description: string;

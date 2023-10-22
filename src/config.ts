@@ -10,9 +10,9 @@ export const menuItems: MenuItem[] = [
     path: "/category/application",
   },
   {
-    id: "blogs",
+    id: "posts",
     label: "博客",
-    path: "/blogs",
+    path: "/posts",
   },
   {
     id: "search",
@@ -72,13 +72,13 @@ export const formControls: FormControlItem[] = [
 ];
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBlCooWO0lmd0JNEgeAfI2aCs1tA3hZNo8",
-  authDomain: "blog-app-97d34.firebaseapp.com",
-  projectId: "blog-app-97d34",
-  storageBucket: "blog-app-97d34.appspot.com",
-  messagingSenderId: "980489662763",
-  appId: "1:980489662763:web:56af6495955d00bed7d56e",
-  measurementId: "G-D8QK3X4RR6"
+  apiKey: "AIzaSyDug0nzWA8pYbUcclhGfaDCFYTOsies1bY",
+  authDomain: "huala-blog.firebaseapp.com",
+  projectId: "huala-blog",
+  storageBucket: "huala-blog.appspot.com",
+  messagingSenderId: "328703251350",
+  appId: "1:328703251350:web:4858ce7fee87ecf450c3b7",
+  measurementId: "G-0VZ5GGZNVJ"
 };
 
 export const initialBlogFormData = {

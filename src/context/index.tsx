@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useSession } from "next-auth/react";
 import Spinner from "@/components/spinner";
-import { initialBlogFormData } from "@/utils";
+import { initialBlogFormData } from "@/config";
 import { usePathname, useRouter } from "next/navigation";
 
 type ContextType = {
@@ -19,8 +19,8 @@ type ContextType = {
   setFormData: Dispatch<SetStateAction<BlogFormData>>;
   searchQuery: string;
   setSearchQuery: Dispatch<SetStateAction<string>>;
-  searchResults: Blog[];
-  setSearchResults: Dispatch<SetStateAction<Blog[]>>;
+  searchResults: Post[];
+  setSearchResults: Dispatch<SetStateAction<Post[]>>;
 };
 
 const initialState = {
@@ -40,7 +40,7 @@ export default function GlobalState({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(initialBlogFormData);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<Blog[]>([]);
+  const [searchResults, setSearchResults] = useState<Post[]>([]);
   const { data: session } = useSession();
   const pathname = usePathname();
   const router = useRouter();

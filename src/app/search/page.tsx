@@ -1,18 +1,20 @@
 "use client";
 
-import SingleBlog from "@/components/blogs/single-blog";
-import Button from "@/components/button";
+import { ItemCard } from "@/components/posts";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useContext } from "react";
+import { deletePostById } from "@/lib/request";
 import { GlobalContext } from "@/context";
-import { useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+
+
+
 
 export default function Search() {
   const { searchResults, setSearchQuery, setSearchResults, searchQuery } =
     useContext(GlobalContext);
 
-  const router = useRouter();
-
-  async function helperFuncToFetchSearchResults(query: string) {
+  const helperFuncToFetchSearchResults = async (query: string) => {
     const res = await fetch(`/api/search?query=${query}`, {
       method: "GET",
       cache: "no-store",
@@ -27,20 +29,13 @@ export default function Search() {
     }
   }
 
-  async function handleSearch() {
+  const handleSearch = async () => {
     helperFuncToFetchSearchResults(searchQuery);
   }
 
-  async function handleDelete(id: number) {
-    console.log(id);
-
-    const res = await fetch(`/api/blog-post/delete-post?id=${id}`, {
-      method: "DELETE",
-      cache: "no-store",
-    });
-
+  const handleDelete = async (id: number) => {
+    const res = await deletePostById(id);
     const data = await res.json();
-
     if (data && data.success) helperFuncToFetchSearchResults(searchQuery);
   }
 
@@ -51,11 +46,11 @@ export default function Search() {
           <div className="w-full px-4">
             <div className="mb-12 rounded-md bg-primary/[3%] py-11 px-8 dark:bg-dark sm:p-[50px] lg:mb-5 lg:px-8 xl:p-[55px]">
               <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
-              搜索任何博客文章
+                搜索任何博客文章
               </h2>
               <div className="flex flex-col gap-4">
                 <div className="flex gap-4">
-                  <input
+                  <Input
                     name="search"
                     id="search"
                     type="text"
@@ -70,7 +65,7 @@ export default function Search() {
                   />
                 </div>
                 <div>
-                  <Button text="检索" onClick={handleSearch} />
+                  <Button onClick={handleSearch} >检索</Button>
                 </div>
               </div>
             </div>
@@ -79,20 +74,19 @@ export default function Search() {
             <div className="container">
               <div className="-mx-4 flex flex-wrap">
                 {searchResults && searchResults.length ? (
-                  searchResults.map((searchBlogItem: Blog) => (
+                  searchResults.map((searchBlogItem: Post) => (
                     <div
                       key={searchBlogItem.id}
                       className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
                     >
-                      <SingleBlog
+                      <ItemCard
                         handleDelete={handleDelete}
-                        blogItem={searchBlogItem}
+                        post={searchBlogItem}
                       />
                     </div>
                   ))
                 ) : (
-                  <h1>没有搜索结果
-                  </h1>
+                  <h1>没有搜索结果 </h1>
                 )}
               </div>
             </div>
