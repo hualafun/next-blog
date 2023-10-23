@@ -23,7 +23,7 @@ export default function Home() {
                 <Link
                   className="rounded-md bg-primary py-4 px-8 text-base font-semibold text-white 
                   hover:bg-primary/80"
-                  href={"/blogs"}
+                  href={"/posts"}
                 >
                  探索所有博客
                   

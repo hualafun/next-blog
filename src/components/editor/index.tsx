@@ -3,7 +3,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
-const Tiptap = () => {
+const Tiptap = ({ className }: { className?: string }) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -12,7 +12,7 @@ const Tiptap = () => {
   })
 
   return (
-    <EditorContent editor={editor} />
+    <EditorContent editor={editor} className={className} />
   )
 }
 
