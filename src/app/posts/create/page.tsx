@@ -4,47 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Spinner from "@/components/spinner";
 import { GlobalContext } from "@/context";
-import { firebaseConfig, formControls, initialBlogFormData } from "@/config";
-import { initializeApp } from "firebase/app";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+import { formControls, initialBlogFormData } from "@/config";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 
-const app = initializeApp(firebaseConfig);
-const stroage = getStorage(app, "gs://blog-app-97d34.appspot.com");
-
-function createUniqueFileName(fileName: string) {
-  const timeStamp = Date.now();
-  const randomString = Math.random().toString(36).substring(2, 12);
-
-  return `${fileName}-${timeStamp}-${randomString}`;
-}
-
-async function handleImageSaveToFireBase(file: any) {
-  const extractUniqueFileName = createUniqueFileName(file?.name);
-  const stroageRef = ref(stroage, `blog/${extractUniqueFileName}`);
-  const uploadImg = uploadBytesResumable(stroageRef, file);
-
-  return new Promise((resolve, reject) => {
-    uploadImg.on(
-      "state_changed",
-      (snapshot) => { },
-      (error) => reject(error),
-      () => {
-        getDownloadURL(uploadImg.snapshot.ref)
-          .then((url) => resolve(url))
-          .catch((error) => reject(error));
-      }
-    );
-  });
-}
 
 export default function Create() {
   const { toast } = useToast()

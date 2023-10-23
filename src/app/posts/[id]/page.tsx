@@ -1,5 +1,5 @@
 import { PostDetail } from "@/components/posts";
-import prisma from "@/database";
+import prisma from "@/lib/prisma";
 
 interface Param {
   id: string;

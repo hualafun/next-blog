@@ -1,5 +1,5 @@
-import prisma from "@/database";
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
 export async function DELETE(req: NextRequest) {
   try {
@@ -28,7 +28,6 @@ export async function DELETE(req: NextRequest) {
     });
   }
 }
-
 
 export async function PUT(request: NextRequest) {
   try {
@@ -63,7 +62,6 @@ export async function PUT(request: NextRequest) {
     });
   }
 }
-
 
 export async function POST(request: NextRequest) {
   try {

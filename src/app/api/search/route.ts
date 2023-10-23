@@ -1,6 +1,5 @@
-import prisma from "@/database";
 import { NextRequest, NextResponse } from "next/server";
-
+import prisma from "@/lib/prisma";
 export async function GET(req: NextRequest) {
   try {
     const url = new URL(req.url);

@@ -1,5 +1,5 @@
 import CategoryList from "@/components/category";
-import prisma from "@/database";
+import prisma from "@/lib/prisma";
 
 import type { Metadata } from "next";
 

@@ -8,8 +8,6 @@ import { deletePostById } from "@/lib/request";
 import { GlobalContext } from "@/context";
 
 
-
-
 export default function Search() {
   const { searchResults, setSearchQuery, setSearchResults, searchQuery } =
     useContext(GlobalContext);

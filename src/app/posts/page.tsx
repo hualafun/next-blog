@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
-import prisma from "@/database";
 import { PostList } from "@/components/posts";
-
-
+import prisma from "@/lib/prisma";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "博客 | Huala Post",
