@@ -25,7 +25,10 @@ import {
 } from "@/components/ui/form"
 
 const postFormSchema = z.object({
-  username: z.string().min(2).max(50),
+  title: z.string().min(2, {
+    message: "title must be at least 2 characters.",
+  }),
+  category: z.string(),
 })
 
 
@@ -52,7 +55,8 @@ export default function Create() {
   const form = useForm<z.infer<typeof postFormSchema>>({
     resolver: zodResolver(postFormSchema),
     defaultValues: {
-      username: "",
+      title: "",
+      category: ""
     },
   })
 
@@ -128,47 +132,51 @@ export default function Create() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
                 control={form.control}
-                name="username"
+                name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>标题</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="请输入标题" {...field} />
                     </FormControl>
                     <FormDescription>
-                      This is your public display name.
+                      这是你博客的标题.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <FormField name="category" render={
+              <FormField control={form.control} name="category" render={
                 ({ field }) => (
-                  <Select onValueChange={(value) => setFormData({ ...formData, category: value })}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="分类" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {
-                        categories.map((item) => (
-                          <SelectItem value={item.value}>{item.label}</SelectItem>
-                        ))
-                      }
-                    </SelectContent>
-                  </Select>
+                  <FormItem>
+                    <FormLabel>博客分类</FormLabel>
+                    <FormControl>
+                      <Select {...field} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="分类" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {
+                            categories.map((item) => (
+                              <SelectItem value={item.value}>{item.label}</SelectItem>
+                            ))
+                          }
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormDescription>
+                      这是你博客的分类.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+
                 )
               }></FormField>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" onClick={handleSaveBlogPost}>发布</Button>
             </form>
           </Form>
         </CardContent>
-
-        <CardFooter>
-          <Button className="px-4" onClick={handleSaveBlogPost}>
-            发布
-          </Button>
-        </CardFooter>
       </Card>
     </section >
   );
